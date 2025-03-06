@@ -1,0 +1,50 @@
+<div class="register">
+    <h1>Member Registration</h1>
+    <div class="example">
+        <form class="k-form" [formGroup]="form">
+            
+        
+            <ng-container *ngFor="let field of formData">
+                <kendo-formfield>
+                    <kendo-label [for]="field.name.toLowerCase()" [text]="field.name"></kendo-label>
+                    
+              
+                    <ng-container *ngIf="field.name.toLowerCase() === 'address'; else inputField">
+                        <textarea 
+                            formControlName="address"
+                            class="k-textarea">
+                        </textarea>
+                    </ng-container>
+
+                    <ng-template #inputField>
+                        <kendo-textbox 
+                            formControlName="{{ field.name.toLowerCase() }}" 
+                            [clearButton]="true">
+                        </kendo-textbox>
+                    </ng-template>
+
+                    <div *ngIf="form.controls[field.name.toLowerCase()].invalid && form.controls[field.name.toLowerCase()].touched" class="error">
+                        <ng-container *ngIf="form.controls[field.name.toLowerCase()].errors?.['required']">
+                            {{ field.name }} is required.
+                        </ng-container>
+                        <ng-container *ngIf="form.controls[field.name.toLowerCase()].errors?.['maxlength']">
+                            {{ field.name }} exceeds the maximum length.
+                        </ng-container>
+                        <ng-container *ngIf="form.controls[field.name.toLowerCase()].errors?.['pattern']">
+                            Invalid format for {{ field.name }}.
+                        </ng-container>
+                        <ng-container *ngIf="form.controls[field.name.toLowerCase()].errors?.['email']">
+                            Please enter a valid email address.
+                        </ng-container>
+                    </div>
+                </kendo-formfield>
+            </ng-container>
+
+            <div class="k-form-buttons">
+                <button kendoButton themeColor="primary" [disabled]="form.invalid">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
